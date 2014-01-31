@@ -1,0 +1,7 @@
+Hi {{ user.first_name }},
+
+You asked us to remind you if you haven't posted a Good Thing in a while; this is that reminder!
+
+We hope things are going well for you - come back and celebrate your latest good things at https://www.threegthings.net/.
+
+- The 3GT Team

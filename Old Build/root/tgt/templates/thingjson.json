@@ -1,0 +1,15 @@
+{% load tgttags %}
+{"posted": "{{ obj.posted|date:"r" }}",
+	"id":"{{obj.id}}",
+	"goodThing":"{{ obj.goodThing|escapejs }}",
+	{% if request.user == obj.user %}"reason":"{{obj.reason}}",{% endif %}
+	{% if obj.friends %}"friends":[{{obj.friends}}],{% endif %}
+	"user":"{{obj.user.first_name}} {{obj.user.last_name}}",
+	"username":"{{obj.user}}",
+	"uid":"{{obj.user.id}}",
+	"fbuid":"{{obj.user.get_profile.facebook_id}}",
+	"public": {{ obj.public|lower }},
+	"cheers":{{ obj.cheer_set.count }},
+	"uncheer":"{% if request.user.id|userHasCheered:obj.id %}un{% else %}{% endif %}"
+	
+}

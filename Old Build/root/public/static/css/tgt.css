@@ -1,0 +1,295 @@
+body {
+    background-color:rgb(243,247,255);
+    color: #333;
+    direction: ltr;
+}
+
+h6 {
+  color: #A3A3A3;
+  margin: 5px;
+  margin-left: 0px;
+}
+
+      .image {
+          padding: 0px;
+      }
+      .nav {
+          padding-top: 5px;
+      }
+
+  a:link {
+  	color: #777777; text-decoration: none;
+  }
+a:active {
+	color: #000000; text-decoration: none; 
+}
+a:visited {
+	color: #777777; text-decoration: none; 
+}
+a:hover {
+	color: #000000; text-decoration: none; 
+}
+
+h6 {
+  color: #A3A3A3;
+  margin: 5px;
+  margin-left: 0px;
+}
+
+
+ul, li {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.icon-lock {
+  margin-left: 3px;
+}
+
+  #profile {
+
+  	padding-top: 7px;
+  }
+
+  #profpic {
+  	padding-right: 1em;
+  }
+
+.media-body:hover .name .delete  {
+  visibility: visible;
+}
+
+.media-body:hover .reason-lock  {
+  visibility: visible;
+}
+
+.reason-lock {
+  visibility: hidden;
+}
+
+.media-body .well {
+	background-color: #eee;
+	padding: 0px;
+  z-index: 0;
+}
+.media-body .name {
+	padding: 10px;
+	padding-top: 7px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #e3e3e3;
+  z-index: 0;
+}
+
+.name .media-heading {
+  margin: 0px;
+}
+
+.name .prof_link {
+  color: black;
+}
+
+.name .delete {
+  float: right;
+  text-align:right;
+  visibility: hidden;
+}
+
+.media-body .gtcontent {
+	padding: 10px;
+	padding-top: 4px;
+	padding-bottom: 1px;
+}
+
+.media-body .control {
+	padding: 10px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.control .link {
+  color: #08c;
+}
+.control .link:hover {
+  text-decoration: underline;
+  color: #00008B;
+} 
+
+
+.media-body .collapse-group {
+  padding-bottom: 10px;
+}
+
+.media-body .collapse {
+  text-align: center;
+  color: #A0A0A0;
+}
+
+
+.content {
+	margin-top:30px;
+    padding:20px 10px 20px 10px;
+}
+
+.error {
+    border: 1px solid red;
+    margin-top: 10px;
+    padding: 20px;
+}
+
+h1, h2 {color: #1C2A47;}
+
+h3 {color:#4c5a77;}
+
+h1 {
+    padding-bottom: 2px;
+    margin:0em;
+    font-size: 1.8em;
+    vertical-align:top;
+}
+
+h2 {
+    font-size: 1.3em;
+    padding:0;
+    margin:0 0 2px 0;
+}
+
+.leftbox h3 {
+	 font-size:1em;
+	 padding:0;
+	 font-variant:small-caps;
+	 margin:0 0 2px 0;
+}
+
+a {
+    color: #3B5998;
+    text-decoration: none;
+}
+
+.messages {
+    padding: 15px;
+    background-color: #cdc;
+    list-style: none;
+}
+
+.helptext {
+    color: #666;
+    font-size:0.9em;
+    padding-left:1em;
+}
+
+#footer {
+    padding-top: .5em;
+    color: #555;
+    margin:1em auto; /* Right and left margin widths set to "auto" */
+    text-align:center;
+}
+
+#logo{margin-left:-45px;margin-right:7px;}
+textarea{height:2.4em;}
+textarea:focus{border-color:#3B5998;}
+
+.leftbox, #theGoodThing {border:1px solid #bbb;background-color:#fff;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+
+#you {}
+.leftbox{margin-bottom:1em;padding:0.5em;clear:both;}
+#selfimg{float:left;padding-right:5px;}
+.stat{font-variant:small-caps;padding:0 2em 0 0.5em;}
+.stat .number{font-size:1.5em;font-weight:bold;color:#000;}
+#stats{clear:both;padding-top:0.5em;margin-left:-0.5em;margin-right:-0.5em;color:#777;}
+.profilelink{color:#7f9dcc;font-size:0.9em;}
+.profilelink:hover{color:#3B5998;}
+.postcell{text-align:right;}
+legend{font-weight:bold;}
+
+#goodThingsList{margin: 0 -0.5em 0 -0.5em;font-size:1.1em;}
+.avatar{float:left;padding-bottom:0.5em;}
+.singleUserGoodThing .gt{margin-left:0px;}
+.privacy{margin-left:1.5em;}
+/*.commentcount{padding-left:.5em;}*/
+.fb_comments_count:after{content:" comments";}
+.commentcount a{color:#aaa;}
+a:hover{text-decoration:underline;}
+
+#filters{float:right;}
+#filters a:hover{border-bottom: 1px solid #3B5998;text-decoration:none;}
+.filter_selected{font-weight:bold;border-bottom: 1px dotted #3B5998;}
+
+#theGoodThing{background-color:#fff;padding:1em;font-size:1.4em;margin:2em 1em 2em 1em;}
+#name{font-weight:bolder;font-size:1.2em;}
+#theGoodThing #name, #theGoodThing #username, #theGoodThing #goodThing, #theGoodThing #reason {margin-left:70px;}
+#theGoodThing #goodThing, #theGoodThing #reason{font-family:'Times New Roman','Times';font-size:1.4em;clear:both;padding-top:0.2em;}
+#theGoodThing #reason, #theGoodThing #username{color:#666;}
+.metadata{color:#999;float:right;font-size:0.8em;padding:0.75em 0em 0.75em 0em;}
+.metadata a{padding-right:1em;}
+.singleUserGoodThing .metadata {width:100%;text-align:right;}
+.singleUserGoodThing .metadata a{padding-right:0em;}
+
+#settings {margin-top:1em;border-top:1px solid #aaa;margin-left:-0.5em;margin-right:-0.5em;display:none;}
+#settings table, #settings h3{margin:0.5em;}
+#settings td {vertical-align:top;}
+#settings th {padding-top:1em;}
+#settings button {margin-top:1em;}
+
+.cleardiv{clear:both;}
+
+.size10 {font-size:2em;}
+.size9 {font-size:1.9em;}
+.size8 {font-size:1.8em;}
+.size7 {font-size:1.7em;}
+.size6 {font-size:1.6em;}
+.size5 {font-size:1.5em;}
+.size4 {font-size:1.4em;}
+.size3 {font-size:1.3em;}
+.size2 {font-size:1.2em;}
+.size1 {font-size:1.1em;}
+.size0 {font-size:1em;}
+
+
+.fade {
+    -moz-transition: opacity 0.15s linear 0s;
+    opacity: 0;
+}
+.fade.in {
+    opacity: 1;
+}
+
+.right-caret {
+    border-bottom: 7px solid transparent;
+    border-top: 7px solid transparent;
+    border-right: 8px solid #333;
+    display: inline-block;
+    height: 0;
+    opacity: 0.3;
+    vertical-align: top;
+    width: 0;
+}
+
+
+
+.opt {
+  padding-left: 20px;
+}
+
+#settingbutton {
+  padding-right:4px;
+}
+
+#lock {
+  float: top;
+  margin-left: 6px;
+  position: relative;
+  right: 25px;
+  top:5px;
+}
+
+
+#privatereason {
+  font-size: 10px;
+  clear: right;
+  margin-right: 25px;
+}
+
+
+.tooltip-inner {
+  white-space:pre-wrap;
+}

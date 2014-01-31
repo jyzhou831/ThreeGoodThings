@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}{% if viewuser %}{{viewuser.first_name}} {{viewuser.last_name}} :: {% endif %}{% endblock %}
+
+{% block extracssjs %}
+<script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js" type="text/javascript"></script>
+{% if not viewuser %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tokeninput.min.js"></script>
+{% endif %}
+<script src="{{ STATIC_URL }}js/tgthelpers.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/tgtfeed.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var {% if request.user.is_authenticated%}uid = {{request.user.id}},{%endif%}
+	 	csrfmiddlewaretoken = '{{csrf_token}}',
+		feedSelector = "{%if viewuser%}&uid={{viewuser.id}}{%endif%}";
+
+
+	$(document).ready(function(){
+		tgtDocumentReady();
+		//$('.twipabled').tooltip();
+		if (window.location != window.parent.location){$('head').append('<link href="/static/css/tgtfb.css" type="text/css" rel="stylesheet" media="all" />');};
+		
+	    {% if not viewuser %}
+		$('#settingslink').on('click',function(){$('#settings').toggle('fast')});
+
+
+		$('#id_reason, #tagfriends, #buttons, #lock, #privatereason').hide();
+		//show reason bar and buttons when the good thing post bar is clicked into           
+		$('#id_goodThing').click(function() {
+	        $('#id_reason,#tagfr,#buttons,#lock,#privatereason,#tagfriends').show();
+		});
+
+		$('#gtForm').submit(function(){
+			$('#postbtn').attr('disabled','disabled');
+			$.post("/api/saveGoodThing", $("#gtForm").serialize(), function(returnData){
+				$('#gtForm')[0].reset();
+				var item = $.parseJSON(returnData);
+				renderGoodThing(item).prependTo("#goodThingsList");
+				$("#id_friends").tokenInput("clear");
+				$('#postbtn').removeAttr('disabled');
+				$('#gtcount').html(Number($('#gtcount').html())+1);
+			});
+			return false;
+		});
+		
+		$('#settingsForm').submit(function(){
+			$('#savesettings').attr('disabled','disabled');
+			$.post("/api/saveSettings", $("#settingsForm").serialize(), function(returnData){
+				$('#settingsForm')[0].reset();
+				$('#savesettings').removeAttr('disabled');
+				$('#settings').toggle('fast');
+			});
+			return false;
+		});
+	    {% endif %}
+	});
+</script>
+{% if not viewuser %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/token-input-facebook.css" type="text/css" />
+{% endif %}
+{% if viewuser = request.user %}
+<style type="text/css">
+	.cheerlink{display:none;}
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+     <div class="content">
+	
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+	
+		<div class="row">
+ 	   <div id="you" class="span4">
+ 	     <div class="leftbox">
+ 	     {% if not viewuser %}<div id="selfimg"><img src="http://graph.facebook.com/{{ request.user.get_profile.facebook_id }}/picture?type=square" alt="{{request.user.first_name}} {{request.user.last_name}}"/></div><h2 id="name">{{request.user.first_name}} {{request.user.last_name}}</h2>
+ 		 <div><a  class="profilelink" id="settingslink" href="#">settings</a></div>
+ 		 {% else %}
+ 	     <div id="selfimg"><img src="http://graph.facebook.com/{{ viewuser.get_profile.facebook_id }}/picture?type=square" alt="{{viewuser.first_name}} {{viewuser.last_name}}"/></div><h2 id="name">{{viewuser.first_name}} {{viewuser.last_name}}</h2>
+ 		 <div><a class="profilelink" href="/">home</a></div>
+ 		 {% endif %}
+ 	     <div id="stats"><span class="stat"><span class="number" id="gtcount">{{gtcount}}</span> Good Things</span><span class="stat"><span class="number">{{perday|floatformat}}</span> Per Day</span></div>
+ 		  {% if not viewuser %}
+ 		 <div id="settings">
+ 			 <form name="settingsForm" id="settingsForm" method="post" action="">{% csrf_token %}
+ 			 <h3>Settings</h3>
+ 			 <table>
+ 			 <tr><td>{{settingsform.reminders}}</td><td>Email reminders after {{settingsform.reminderDays}} days without posting.</td></tr>
+ 			 <tr><th colspan="2">Posting Defaults</th></tr>
+ 			 <tr><td>{{settingsform.defaultPublic}}</td><td><label for="id_defaultPublic">Post publicly on 3GT</label></td></tr>
+ 			 <tr><td>{{settingsform.defaultFB}}</td><td><label for="id_defaultFB">Post to Facebook</label></td></tr>
+ 			 <tr><td></td><td><button id="savesettings" class="btn">Save</button></td>
+ 			 </table>
+ 			 </form>
+ 		 </div>
+ 		 {% endif %}
+ 	     </div>
+ 		 {% if wc %}
+ 	     <div class="leftbox">
+ 	      {% if not viewuser %}<h3>Your top Good Thing Words</h3> {{wc.gtCloudPrivate|safe}}{% else %}<h3>{{viewuser.first_name}}'s top Good Thing Words</h3> {{wc.gtCloudPublic|safe}}{% endif %}
+ 	     </div>
+ 	     {% if not viewuser %}
+ 			 <div class="leftbox">
+ 				<h3>Your top Reason Words</h3>
+ 			   {{wc.rCloudPrivate|safe}}
+ 			 </div>
+ 			 {% endif %}
+ 		 {% else %}
+ 			 {% if not viewuser %}
+ 			 <div class="leftbox">
+ 			 <h2>Welcome! Let's get started.</h2>
+ 			<p>To get started, just record a good thing and why it happened using the form to the right.</p>
+ 			<p>You can change where each good thing is shared (or not shared) from the posting form, and you can change the defaults using the settings option above.</p>
+ 			 </div>
+ 			 {% endif %}
+ 		 {% endif %}
+
+ 	    </div>
+		
+	  <div id="feed" class="span7">
+	    {% if viewuser = request.user %}<p><em>This is how your profile looks to others. Go <a href="/">home.</a></em></p>{% endif %}
+	    {% if not viewuser %}
+		
+		<div id="my_good_thing" class="media-list">
+			<div class="media" style="overflow:visible; padding-bottom:0px">
+			<a class="pull-left" href="#" style="margin-right:0px"><img src="http://graph.facebook.com/{{ request.user.get_profile.facebook_id }}/picture?type=square" alt="{{request.user.first_name}} {{request.user.last_name}}" class="media-object"/></a>
+			<a class="pull-left" href="#" style="margin-left:2px; padding-top:20px"><i class="right-caret"></i></a>
+			<div class="media-body" style="overflow:inherit; margin-left:60px" >
+				<div class="well well-small">
+					<div class="input-append" style="padding-top:15px; padding-bottom:0px; padding-left:10px"> 
+						   <form id="gtForm" name="gtForm" method="post" action="">{% csrf_token %}
+							<fieldset>
+								<div><input  class="span6" id="id_goodThing" name="goodThing" type="text" placeholder="What was the good thing?" /></div>						
+								<div><input  class="span6" id="id_reason" name="reason" style="display:none" type="text" placeholder="Why did it happen? (Your reason is always private)" /><i id="lock" class="icon-lock"></i></div>
+								<div id="tagfriends" class="span6" style="margin-left:0px;"><input class="span6" id="id_friends" name="friends" type="text" placeholder="Who were you with?" /></div>
+
+								<div id="buttons" class="span6">
+									<label class="checkbox inline" for="id_public"><input type="checkbox" name="public" id="id_public" {% if settings.defaultPublic %}checked="checked"{% endif %}/>Post to 3GT</label> <label class="checkbox inline" for="id_wall"><input type="checkbox" name="wall" id="id_wall" {% if settings.defaultFB %}checked="checked"{% endif %}/>Public on Facebook</label>
+									<div class="pull-right" style="padding-right:20px;">
+									<button class="btn btn-primary" style="margin-top:10px" id="postbtn">Post</button></div>
+								</div>
+							</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>	
+			</div>		
+		</div>		
+		
+		
+
+	  {% endif %}
+	  	<ul class="media-list" id="goodThingsList"></ul>
+	  <div id="load-anchor"></div>
+	   </div>
+ 		</div>
+{% endblock %}
+
+{% block afterjs %}
+{% if not viewuser %}
+<div id="fb-root"></div>
+<script src="/static/js/facebook.js" type="text/javascript"></script>
+<script>
+    facebookAppId = '119352832576';
+    facebookDefaultScope = ["email", "user_about_me", "user_birthday", "user_website"];
+    staticUrl = '/static/';
+	function facebookJSLoaded(){
+		FB.init({appId: facebookAppId, status: false, cookie: true, xfbml: true, oauth: true});
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				var accessToken = response.authResponse.accessToken;
+				FB.api('/me/friends?access_token='+accessToken, function(response) {
+					$("#id_friends").tokenInput(response.data, {
+                  	  theme: "facebook",
+					  preventDuplicates: true,
+					  hintText: "Start typing a friend's name",
+				  });	
+				});
+				
+		  	}else{$("#tagfriends").hide()};
+	  	});
+  	};
+    window.fbAsyncInit = facebookJSLoaded;
+    F = new facebookClass(facebookAppId);
+    F.load();
+</script>
+{% else %}
+{% include 'django_facebook/_facebook_js.html' %}
+{% endif %}
+{% endblock %}
