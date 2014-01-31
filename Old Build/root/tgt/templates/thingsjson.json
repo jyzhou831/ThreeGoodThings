@@ -1,0 +1,8 @@
+{
+    "page": {{ page.number }},
+    "hasNext": {{ page.has_next|lower }},
+    "itemList": [{% for obj in page.object_list %}
+		{% include "thingjson.json" %}
+		{% if not forloop.last %},{% endif %}{% endfor %}
+    ]
+}

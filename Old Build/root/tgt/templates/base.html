@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraph.org/schema/">
+{% block head %}<head>{% endblock %}
+	<title>{% block title %} {% endblock %} Three Good Things</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	
+	<link rel="icon" type="image/gif" href="{{ STATIC_URL }}img/favicon.gif" />
+	<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+	<link href="{{ STATIC_URL }}css/tgt.css" type="text/css" rel="stylesheet" media="all" />
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+	
+ 	{% block extracssjs %}
+	{% endblock %}
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-28473627-1']);
+	  _gaq.push(['_trackPageview']);
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+        <meta property="fb:app_id" content="119352832576" />
+</head>
+<body>
+	<div class="container">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+  	      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+  	        <span class="icon-bar"></span>
+  	        <span class="icon-bar"></span>
+  	        <span class="icon-bar"></span>
+  	      </a>
+			
+          <a class="brand" href="/">Three Good Things</a>
+		  
+		  {%block navbar-content %}
+		  <ul class="nav pull-right">
+			  <li class="dropdown">
+			      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			        <i class="icon-user"></i> <b class="caret"></b>
+			      </a>
+			      <ul class="dropdown-menu" role="menu">
+					   <li><a href="">Settings</a></li>
+					  <li><a href="/accounts/signout/?next={{ request.path|urlencode }}">Sign out</a></li>
+			      </ul>
+			    </li>
+		  </ul>
+		  {% endblock %}
+	  
+		  
+        </div>
+      </div>
+    </div>
+
+{% block content %}
+<p>This is the content block.</p>
+{% endblock %}
+</div>
+{% block afterjs %}
+{% endblock %}
+<footer id="footer">
+<a href="/">Home</a> | <a href="/privacy/">Privacy Policy</a> | 3GT is a University of Michigan research application.
+</footer></div>
+</body></html>

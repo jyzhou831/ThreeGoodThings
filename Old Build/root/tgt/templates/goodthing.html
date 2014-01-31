@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head %}
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# threegoodthings: http://ogp.me/ns/fb/threegoodthings#">
+  <meta property="fb:app_id" content="119352832576" />
+  <meta property="og:type"   content="threegoodthings:good_thing" />
+  <meta property="og:url"    content="http://www.threegthings.net/user/{{gt.user.username}}/{{gt.id}}" />
+ <meta property="og:title" content="" /> 
+  <meta property="og:description"  content="{{gt.goodThing}}" />
+  <meta property="og:image"  content="http://www.threegthings.net/static/img/threegoodthings.jpg" />
+{% endblock %}
+
+{% block title %}A Good Thing from {{gt.user.first_name}} {{gt.user.last_name}} :: {% endblock %}
+
+{% block extracssjs %}
+<script type="text/javascript">
+var csrfmiddlewaretoken = '{{csrf_token}}';
+
+$(document).ready(function(){
+	if (window.location != window.parent.location){$('head').append('<link href="/static/css/tgtfb.css" type="text/css" rel="stylesheet" media="all" />');};
+	$(document).on("click", "a.delete", function(){
+		$.post('/api/delete',{ gtid: $(this).attr('title'), csrfmiddlewaretoken: csrfmiddlewaretoken },function(data){window.location.href = "/";});
+	});			
+	$(document).on("click", "a.cheer", function(){
+		$.post('/api/cheer',{ gtid: $(this).attr('title'), csrfmiddlewaretoken: csrfmiddlewaretoken },function(data){ $('#cheer{{gt.id}}').replaceWith('<a id="uncheer{{gt.id}}" class="uncheer" href="#" title="{{gt.id}}">un-Cheer</a>');});
+	});	
+	$(document).on("click", "a.uncheer", function(){
+		$.post('/api/uncheer',{ gtid: $(this).attr('title'), csrfmiddlewaretoken: csrfmiddlewaretoken },function(data){ $('#uncheer{{gt.id}}').replaceWith('<a id="cheer{{gt.id}}" class="cheer" href="#" title="{{gt.id}}">Cheer</a>');});
+	});		
+	
+});
+</script>
+<style type="text/css">.fb-comments{margin:1em 0 0 70px;}#friends{font-size:0.9em;color:#888;}</style>
+{% endblock %}
+
+{% block content %}
+<div class='content'>
+<div id='theGoodThing'>
+<div id="user"><div id="selfimg"><img src="http://graph.facebook.com/{{ gt.user.get_profile.facebook_id }}/picture?type=square" alt="{{gt.user.first_name}} {{gt.user.last_name}}"/></div><div id="name"><a href="/user/{{gt.user.username}}">{{gt.user.first_name}} {{gt.user.last_name}}</a></div>{% if gt.user.username %}<div id="username">{{gt.user.username}}</div>{% endif %}</div>
+<div id="goodThing">{{gt.goodThing}} {% if friends %}<span id="friends">&mdash; with {{friends|safe}}</span>{% endif %}</div>
+{% if gt.user = request.user %}<div id="reason">{{gt.reason}}</div>{% endif %}
+
+<div class="metadata">{% if gt.fbLink %}<a href='{{gt.fbLink}}'>View on Facebook</a>{% endif %}{% if gt.user = request.user %}<a class="delete" href="#" title="{{gt.id}}">Delete</a>{% else %}
+	{% if request.user.is_authenticated %}
+		{% if initialCheer %}
+		<a id="uncheer{{gt.id}}" class="uncheer" href="#" title="{{gt.id}}">un-Cheer</a>
+		{% else %}
+		<a id="cheer{{gt.id}}" class="cheer" href="#" title="{{gt.id}}">Cheer</a>
+		{% endif %}
+	{% endif %}
+	{% endif %} Posted at {{gt.posted}}</div>
+<div class='cleardiv'></div>
+{% if gt.public %}<div class="fb-comments" data-href="http://www.threegthings.net/user/{{gt.user.username}}/{{gt.id}}" data-num-posts="25" data-width="615"></div>{% endif %}
+<div class='cleardiv'></div>
+</div></div>
+{% endblock %}
+
+{% block afterjs %}
+<script src="{{ STATIC_URL }}js/facebook.js" type="text/javascript"></script>
+{% include 'django_facebook/_facebook_js.html' %}
+{% endblock %}
